@@ -1,0 +1,15 @@
+PolyvanthOS third-party notices
+===============================
+
+PolyvanthOS itself is licensed under GPL-2.0-only (see LICENSE).
+
+Limine bootloader (limine/ git submodule)
+  Copyright (C) 2019-2026 Mintsuki and contributors.
+  License: BSD-2-Clause (see limine/LICENSE).
+  Limine binaries included in built ISO images must be accompanied by this
+  notice and the license text in limine/LICENSE.
+
+Limine boot protocol header (limine.h)
+  Copyright (C) 2022-2026 Mintsuki and contributors.
+  License: 0BSD (the license text is in the header of limine.h).
+  Source: https://github.com/limine-bootloader/limine
