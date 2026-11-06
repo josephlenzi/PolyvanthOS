@@ -5,16 +5,20 @@ CXX      = clang++
 CXXFLAGS = --target=x86_64-unknown-none-elf -std=c++20 -O2 -g -Wall -Wextra \
            -ffreestanding -fno-exceptions -fno-rtti -fno-threadsafe-statics \
            -fno-use-cxa-atexit -fno-stack-protector -fno-pic \
-           -mno-red-zone -mcmodel=kernel -mno-sse -mno-mmx -I.
-OBJS     = kmain.o serial.o
-ISO    = polyvanthos.iso
+           -mno-red-zone -mcmodel=kernel -mno-sse -mno-mmx -Isrc
+
+SRCS     = src/kmain.cpp src/selftest.cpp src/drivers/serial.cpp src/lib/kprintf.cpp
+OBJS     = $(SRCS:src/%.cpp=build/%.o)
+LINKER   = src/arch/x86_64/linker.ld
+ISO      = polyvanthos.iso
 
 all: $(ISO)
 
-kernel: $(OBJS) linker.ld
-	ld.lld -nostdlib -static -z max-page-size=0x1000 -T linker.ld -o $@ $(OBJS)
+kernel: $(OBJS) $(LINKER)
+	ld.lld -nostdlib -static -z max-page-size=0x1000 -T $(LINKER) -o $@ $(OBJS)
 
-%.o: %.cpp
+build/%.o: src/%.cpp
+	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(ISO): kernel limine.conf
@@ -33,4 +37,4 @@ run: $(ISO)
 	qemu-system-x86_64 -cdrom $(ISO) -serial stdio -display none
 
 clean:
-	rm -rf *.o kernel iso $(ISO)
+	rm -rf build kernel iso $(ISO)

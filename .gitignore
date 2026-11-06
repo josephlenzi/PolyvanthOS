@@ -1,9 +1,9 @@
 # build output
+build/
 *.o
-kernel
+/kernel
 iso/
 *.iso
-
 
 # editor and OS junk
 .vscode/

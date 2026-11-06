@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: GPL-2.0-only
 #include <stdint.h>
 
-#include "limine.h"
-#include "serial.hpp"
+#include "boot/limine.h"
+#include "drivers/serial.hpp"
+#include "selftest.hpp"
 
 // clang-format off
 __attribute__((used, section(".data.limine")))
@@ -14,6 +15,7 @@ static volatile uint64_t limine_base_revision[3] =
 extern "C" [[noreturn]] void kmain() {
     serial::init(serial::DEFAULT_BAUD);
     serial::puts("PolyvanthOS booting...\n");
+    kprintf_selftest();
     for (;;) {
         __asm__ volatile("hlt");
     }
