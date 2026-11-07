@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #include "arch/x86_64/cpu.hpp"
+#include "arch/x86_64/gdt.hpp"
 #include "boot/limine.h"
 #include "drivers/serial.hpp"
 #include "lib/panic.hpp"
@@ -29,6 +30,8 @@ extern "C" [[noreturn]] void kmain() {
     if (!LIMINE_BASE_REVISION_SUPPORTED(limine_base_revision)) {
         panic("Limine base revision not supported");
     }
+
+    arch::gdt_init();
 
     kprintf_selftest();
 
