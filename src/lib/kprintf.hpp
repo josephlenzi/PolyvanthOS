@@ -15,5 +15,6 @@ namespace kprintf_detail {
 }  // namespace kprintf_detail
 
 // Supported conversions: %c %s %d %u %x %p %%
+// %d, %u and %x also accept the l and ll length modifiers, for example %lu or %llx.
 // The format attribute makes the compiler check arguments against the format string.
 __attribute__((format(printf, 1, 2))) void kprintf(const char *fmt, ...);

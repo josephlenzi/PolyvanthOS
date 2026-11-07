@@ -19,6 +19,27 @@ namespace {
         serial::putc(c);
     }
 
+    // Pull the next argument based on the number of 'l's
+    int64_t pull_signed(va_list &args, int long_count) {
+        if (long_count == 0) {
+            return va_arg(args, int);
+        }
+        if (long_count == 1) {
+            return va_arg(args, long);
+        }
+        return va_arg(args, long long);
+    }
+
+    uint64_t pull_unsigned(va_list &args, int long_count) {
+        if (long_count == 0) {
+            return va_arg(args, unsigned int);
+        }
+        if (long_count == 1) {
+            return va_arg(args, unsigned long);
+        }
+        return va_arg(args, unsigned long long);
+    }
+
 }  // namespace
 
 namespace kprintf_detail {
@@ -73,6 +94,17 @@ void kprintf(const char *fmt, ...) {
                 break;  // End of string after '%', stop cleanly
             }
 
+            // Count the 'l' characters
+            int long_count = 0;
+            while (*p == 'l') {
+                ++long_count;
+                ++p;
+            }
+
+            if (*p == '\0') {
+                break;  // End of string after "%l", stop cleanly
+            }
+
             char conversion = *p;
             switch (conversion) {
             case 'c': {
@@ -91,18 +123,15 @@ void kprintf(const char *fmt, ...) {
                 break;
             }
             case 'd': {
-                int arg = va_arg(args, int);
-                kprintf_detail::put_int(static_cast<int64_t>(arg));
+                kprintf_detail::put_int(pull_signed(args, long_count));
                 break;
             }
             case 'u': {
-                unsigned int arg = va_arg(args, unsigned int);
-                kprintf_detail::put_uint(static_cast<uint64_t>(arg), 10);
+                kprintf_detail::put_uint(pull_unsigned(args, long_count), 10);
                 break;
             }
             case 'x': {
-                unsigned int arg = va_arg(args, unsigned int);
-                kprintf_detail::put_uint(static_cast<uint64_t>(arg), 16);
+                kprintf_detail::put_uint(pull_unsigned(args, long_count), 16);
                 break;
             }
             case 'p': {

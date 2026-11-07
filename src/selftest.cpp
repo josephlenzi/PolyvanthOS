@@ -27,10 +27,11 @@ void kprintf_selftest() {
     kprintf("%x\n", 0xDEADBEEFu);                       // deadbeef
     kprintf("%p\n", reinterpret_cast<void *>(0x1000));  // 0x1000
 
-    // TODO: once %lu, %lx and %ld exist, add these:
-    //   uint64_t max   18446744073709551615   ->  18446744073709551615
-    //   uint64_t max   %lx                    ->  ffffffffffffffff
-    //   INT64_MIN      -9223372036854775808   ->  -9223372036854775808
+    kprintf("%lu\n", 18446744073709551615ul);     // 18446744073709551615
+    kprintf("%lx\n", 18446744073709551615ul);     // ffffffffffffffff
+    kprintf("%ld\n", -9223372036854775807l - 1);  // -9223372036854775808
+    kprintf("%llu\n", 18446744073709551615ull);   // 18446744073709551615
+    kprintf("%d %ld %d\n", 1, 2l, 3);             // 1 2 3
 
     kprintf("--- end selftest ---\n");
 }
