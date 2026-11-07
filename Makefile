@@ -45,3 +45,23 @@ run: $(ISO)
 
 clean:
 	rm -rf build kernel iso $(ISO)
+
+# Formatting and licensing checks
+FORMAT_FILES = $(shell find src -name '*.cpp' -o -name '*.hpp' | grep -v '^src/boot/')
+
+check:
+	clang-format --dry-run --Werror $(FORMAT_FILES)
+	reuse lint
+
+# Boot in QEMU and check the selftest finishes without a panic
+test: $(ISO)
+	@mkdir -p build
+	@rm -f build/serial.log
+	-timeout 15 qemu-system-x86_64 -cdrom $(ISO) -serial file:build/serial.log -display none -no-reboot
+	@if grep -q -- "--- end selftest ---" build/serial.log && ! grep -q "PANIC" build/serial.log; then \
+		echo "selftest passed"; \
+	else \
+		cat build/serial.log; echo "selftest FAILED"; exit 1; \
+	fi
+
+.PHONY: all run clean check test

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/logo.svg" width="128" height="128" alt="PolyvanthOS logo">
+</p>
+
 # PolyvanthOS
 
 A 64-bit multitasking hobby OS with native, MS-DOS, and Linux personalities.
@@ -11,6 +15,15 @@ A 64-bit multitasking hobby OS with native, MS-DOS, and Linux personalities.
     make run
 
 Output appears on the serial console. Press Ctrl+A then X to quit QEMU.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md). To report a
+security issue, see [SECURITY.md](SECURITY.md).
+
+## Authors
+
+See [AUTHORS](AUTHORS).
 
 ## License
 
