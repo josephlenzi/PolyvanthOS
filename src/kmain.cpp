@@ -4,6 +4,7 @@
 
 #include "arch/x86_64/cpu.hpp"
 #include "arch/x86_64/gdt.hpp"
+#include "arch/x86_64/idt.hpp"
 #include "boot/limine.h"
 #include "drivers/serial.hpp"
 #include "lib/panic.hpp"
@@ -32,6 +33,7 @@ extern "C" [[noreturn]] void kmain() {
     }
 
     arch::gdt_init();
+    arch::idt_init();
 
     kprintf_selftest();
 

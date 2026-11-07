@@ -8,8 +8,10 @@ CXXFLAGS = --target=x86_64-unknown-none-elf -std=c++20 -O2 -g -Wall -Wextra \
            -mno-red-zone -mcmodel=kernel -mno-sse -mno-mmx -Isrc
 
 SRCS     = src/kmain.cpp src/selftest.cpp src/drivers/serial.cpp src/lib/kprintf.cpp \
-           src/lib/panic.cpp src/arch/x86_64/gdt.cpp
-OBJS     = $(SRCS:src/%.cpp=build/%.o)
+           src/lib/panic.cpp src/arch/x86_64/gdt.cpp \
+           src/arch/x86_64/idt.cpp
+ASMS     = src/arch/x86_64/isr.S
+OBJS     = $(SRCS:src/%.cpp=build/%.o) $(ASMS:src/%.S=build/%.o)
 LINKER   = src/arch/x86_64/linker.ld
 ISO      = polyvanthos.iso
 
@@ -21,6 +23,10 @@ kernel: $(OBJS) $(LINKER)
 build/%.o: src/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+build/%.o: src/%.S
+	@mkdir -p $(@D)
+	$(CXX) --target=x86_64-unknown-none-elf -c $< -o $@
 
 $(ISO): kernel limine.conf
 	mkdir -p iso/boot/limine iso/EFI/BOOT

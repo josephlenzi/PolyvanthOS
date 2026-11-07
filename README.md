@@ -21,4 +21,4 @@ Torvalds. PolyvanthOS is not affiliated with or endorsed by either.
 
 ## AI assistance
 
-Parts of this project were developed with help from Claude AI.
+Parts of this project were developed with help from Claude AI and GitHub Copilot.
