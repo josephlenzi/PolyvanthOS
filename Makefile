@@ -7,7 +7,8 @@ CXXFLAGS = --target=x86_64-unknown-none-elf -std=c++20 -O2 -g -Wall -Wextra \
            -fno-use-cxa-atexit -fno-stack-protector -fno-pic \
            -mno-red-zone -mcmodel=kernel -mno-sse -mno-mmx -Isrc
 
-SRCS     = src/kmain.cpp src/selftest.cpp src/drivers/serial.cpp src/lib/kprintf.cpp
+SRCS     = src/kmain.cpp src/selftest.cpp src/drivers/serial.cpp src/lib/kprintf.cpp \
+           src/lib/panic.cpp
 OBJS     = $(SRCS:src/%.cpp=build/%.o)
 LINKER   = src/arch/x86_64/linker.ld
 ISO      = polyvanthos.iso

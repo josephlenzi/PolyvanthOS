@@ -37,7 +37,7 @@ namespace serial {
 
     void init(uint32_t baud_rate) {
         if (baud_rate == 0 || baud_rate > UART_BASE_BAUD) {
-            baud_rate = DEFAULT_BAUD;  // TODO: assert once panic exists
+            baud_rate = DEFAULT_BAUD;  // Can't panic here: panic prints through this driver
         }
         const uint16_t divisor = static_cast<uint16_t>(UART_BASE_BAUD / baud_rate);
 

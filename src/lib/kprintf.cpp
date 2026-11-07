@@ -7,6 +7,7 @@
 #include <stdint.h>
 
 #include "drivers/serial.hpp"
+#include "lib/panic.hpp"
 
 namespace {
     constexpr char DIGIT_TABLE[] = "0123456789abcdef";
@@ -46,7 +47,7 @@ namespace kprintf_detail {
 
     void put_uint(uint64_t value, unsigned base) {
         if (base < 2 || base > 16) {
-            base = 10;  // TODO: assert once panic exists
+            panic("Invalid base for put_uint");
         }
 
         char buffer[64];
